@@ -1,0 +1,49 @@
+\documentclass{ctexrep}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+%\usepackage[linesnumbered,boxed]{algorithm2e}
+\pagestyle{fancy}
+\chead{华中科技大学计算机科学与技术学院}
+
+
+\begin{titlepage}
+    \title{Curriculum Design}
+    \author{Yuzhe SHI}
+    \date{Feburary 2020}
+\end{titlepage}
+
+
+\begin{document}
+\maketitle
+\bibliographystyle{plain}
+
+  
+\begin{abstract}
+   这是课程设计。 
+\end{abstract}
+\chapter{任务书}
+\section{设计内容}
+SAT问题即命题逻辑公式的可满足性问题\textit{（satisfiability problem）}，是计算机科学与人工智能基本问题，是一个典型的NP完全问题，可广泛应用于许多实际问题如硬件设计、安全协议验证等，具有重要理论意义与应用价值。本设计要求基于DPLL算法实现一个完备SAT求解器，对输入的CNF范式算例文件，解析并建立其内部表示；精心设计问题中变元、文字、子句、公式等有效的物理存储结构以及一定的分支变元处理策略，使求解器具有优化的执行性能；对一定规模的算例能有效求解，输出与文件保存求解结果，统计求解时间。    
+\section{设计要求}
+\subsection{输入输出功能}
+包括程序执行参数的输入，SAT算例cnf文件的读取，执行结果的输出与文件保存等。(15\%)
+\subsection{公式解析与验证}
+读取cnf算例文件，解析文件，基于一定的物理结构，建立公式的内部表示；并实现对解析正确性的验证功能，即遍历内部结构逐行输出与显示每个子句，与输入算例对比可人工判断解析功能的正确性。数据结构的设计可参考文献[1-3]。(15\%)
+\subsection{DPLL过程}
+基于DPLL算法框架，实现SAT算例的求解。(35\%)
+\subsection{时间性能的测量}
+基于相应的时间处理函数（参考time.h），记录DPLL过程执行时间（以毫秒为单位），并作为输出信息的一部分。(5\%)
+\subsection{程序优化}
+对基本DPLL的实现进行存储结构、分支变元选取策略[1-3]等某一方面进行优化设计与实现，提供较明确的性能优化率结果。优化率的计算公式为：
+\begin{equation}
+    \frac{t-t_0}{t_0}\times 100\%
+\end{equation}
+其中$t$为未对DPLL优化时求解基准算例的执行时间，$t_o$则为优化DPLL实现时求解同一算例的执行时间。(15\%)
+\subsection{SAT应用}
+将二进制数独游戏问题转化为SAT问题，并集成到上面的求解器进行问题求解，游戏可玩，具有一定的简单的交互性。
+
+\tableofcontents  
+
+
+\end{document}
