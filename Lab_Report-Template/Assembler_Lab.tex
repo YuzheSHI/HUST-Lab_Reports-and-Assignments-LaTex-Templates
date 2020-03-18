@@ -1,0 +1,275 @@
+\documentclass{ctexrep}
+\usepackage[margin=25mm]{geometry}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{cite}
+\usepackage[linesnumbered,boxed]{algorithm2e}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{appendix}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+
+\pagestyle{fancy}
+\chead{汇编语言程序设计报告}
+
+\begin{document}
+\begin{abstract}
+    这是汇编语言程序实验报告。
+    
+\end{abstract}
+\tableofcontents
+
+\chapter{编程基础}
+\section{实验目的与要求}
+本次实验的主要目的与要求有以下几点，所有的任务都会围绕这几点进行，希望大家事后检查自己是否达到这些目的与要求。
+\begin{enumerate}
+    \item 掌握汇编源程序编辑工具、汇编程序、连接程序、调试工具TD的使用；
+    \item 理解数、符号、寻址方式等在计算机内的表现形式；
+    \item 理解指令执行与标志位改变之间的关系；
+    \item 熟悉常用的DOS功能调用；
+    \item 熟悉分支、循环程序的结构及控制方法，掌握分支、循环程序的调试方法；
+    \item 加深对转移指令及一些常用的汇编指令的理解；
+    \item 掌握设计实现一个原型系统的基本方法。
+\end{enumerate}
+\section{实验内容}
+\subsection{任务1.1}
+《80X86汇编语言程序设计》教材中 P31的 1.14题。要求：
+\begin{enumerate}
+    \item 直接在TD中输入指令，完成两个数的求和、求差的功能。求和/差后的结果放在(AH)中。
+    \item 请事先指出执行指令后(AH)、标志位 SF、OF、CF、ZF的内容。
+    \item 记录上机执行后的结果，与（2）中对应的内容比较。
+\end{enumerate}
+\subsection{任务1.2}
+从键盘上键入0至9中任一自然数x，求其立方值。
+\begin{enumerate}
+    \item 分别记录执行到\texttt{MOV  CX,10}和\texttt{INT 21H}之前的\texttt{(BX), (BP), (SI), (DI)}各是多少。
+    \item 记录程序执行到退出之前数据段开始40个字节的内容，指出程序运行结果是否与设想的一致。
+\end{enumerate}
+操作提示：使用TD.EXE调试程序时，应先单步执行各个语句，每执行一条语句，都应观察数据段中的内容以及相应寄存器的变化。首先注意观察对DS寄存器的赋值过程，并在TD的数据窗口定位待观察的数据区位置。其次，单步执行循环体两遍且正确理解了循环体语句的含义后，可在“MOV AH, 4CH”处设置断点，然后直接执行到断点处，回答(1)和(2)的问题。
+\subsection{任务1.3}
+《80X86汇编语言程序设计》教材中 P45的 2.4题的改写。要求：
+\begin{enumerate}
+    \item 实现的功能不变，但对数据段中变量访问时所用到的变址寄存器采用32位寄存器。
+    \item 记录程序执行到退出之前数据段开始40个字节的内容，检查程序运行结果是否与设想的一致。
+    \item 在TD代码窗口中观察并记录机器指令代码在内存中的存放形式，并与TD中提供的反汇编语句及自己编写的源程序语句进行对照，也与任务1.2做对比。（相似语句记录一条即可，重点理解机器码与汇编语句的对应关系，尤其注意操作数寻址方式的编码形式，比如寄存器间接寻址、变址寻址、32位寄存器与16位寄存器编码的不同、段前缀在代码里是如何表示的等）。
+    \item 观察连续存放的二进制串在反汇编成汇编语言语句时，从不同字节位置开始反汇编，结果怎样？理解 IP/EIP指明指令起始位置的重要性。
+\end{enumerate}
+操作提示：要让TD从任意指定地址开始反汇编，需要使用TD在代码显示区的\texttt{Goto}功能，即鼠标选中代码显示区，点击右键将显示带有\texttt{Goto}的菜单，选中\texttt{Goto}菜单项，输入\texttt{CS:XXXX}即可（XXXX是你希望录入的偏移地址）。
+\subsection{任务1.4}
+设计实现一个网店商品信息管理系统。有一个老板在网上开了1个网店SHOP，网店里有n种商品销售。每种商品的信息包括：商品名称（10个字节，数据段中定义时，名称不足部分补0），折扣S（字节类型，取值0~10；0表示免费赠送，10表示不打折，1~9为折扣率；实际销售价格计算方法为
+\begin{equation}
+    V_S'=\frac{V_S\times S}{10}
+\end{equation}
+其中进货价$V_P$(字类型)，销售价$V_S$（字类型），进货总数$N_0$（字类型），已售数量$N_1$（字类型），推荐度计算公式为
+\begin{equation}
+    R=(\frac{V_P}{V_S}+\frac{N_1}{2N_0})\times 128
+\end{equation}
+老板管理网店信息时需要输入自己的名字（10个字节，数据段中定义时，不足部分补0）和密码（6个字节，数据段中定义时，不足部分补0），登录后可查看商品的全部信息；顾客（无需登录）可以查看网店中每个商品除了进货价以外的信息。根据系统的基本需求，可以制定如下的数据段的定义：
+\begin{lstlisting}[language={[x86masm]Assembler}]
+BNAME  DB  ‘ZHANG SAN’, 0  ;老板姓名
+BPASS  DB  ‘test’, 0, 0, 0  ;密码
+AUTH   DB   0                 ;当前登录状态，0表示顾客状态
+GOOD   DB/DW …               ;当前浏览商品名称或地址（自行确定）
+N    EQU   30
+SNAME  DB  ‘SHOP’,0               ;网店名称，用0结束
+GA1   DB    ‘PEN’, 7 DUP(0), 10  ;商品名称及折扣
+      DW   35, 56, 70, 25, ?        ; 推荐度还未计算
+GA2   DB    ‘BOOK’, 6 DUP(0), 9  ; 商品名称及折扣
+      DW   12, 30, 25, 5, ?         ;推荐度还未计算
+GAN   DB N-2 DUP( ‘TempValue’ , 0, 8, 15, 0, 20, 0, 30, 0, 2, 0, ?, ?) ;除了2个已经具体定义了的商品信息以外，其他商品信息暂时假定为一样的。
+\end{lstlisting}
+本次实验主要是利用分支、循环程序的结构，实现该系统的基本功能，并能熟悉全周期、全流程地设计实现一个原型系统的基本方法。本次实验要具体实现的功能要求如下：
+\subsubsection{主菜单界面}
+完整显示“实验任务的总体描述”中给出的界面信息。等待用户输入数字（可使用1号DOS系统功能调用）。对用户输入的字符进行判断，看是否是1~9的数字；是的话就转移到对应功能的程序标号，不是的话就提示错误，回到主菜单界面。
+\subsubsection{登录/重新登录}
+\begin{enumerate}
+    \item 先后分别提示用户输入姓名和密码（可使用9号DOS系统功能调用）。
+    \item 分别获取输入的姓名和密码（可使用10号DOS系统功能调用）。输入的姓名字符串放在以\texttt{in\_name}为首址的存储区中，密码放在以\texttt{in\_pwd}为首址的存储区中。
+    \item 若输入姓名时只是输入了回车，则将0送到AUTH字节变量中，回到主菜单界面。
+    \item 进行身份认证：\begin{enumerate}
+        \item 使用循环程序结构，比较姓名是否正确。若不正确，则跳到（c）。
+        \item 若正确，再比较密码是否相同，若相同，跳到（d）。
+        \item 若名字或密码不对，则提示登录失败，并转到“（3）”的位置。
+        \item 若名字和密码均正确，则将1送到AUTH变量中，回到主菜单界面。
+    \end{enumerate}
+\end{enumerate}
+提示：字符串比较时，当采用输入串的长度作为循环次数时，若因循环次数减为0而终止循环，则还要去判断网店中定义的字符串的下一个字符是否是结束符0，若是，才能确定找到了（这样做是为了避免输入的字符串仅仅是数据段中所定义字符串的子集的误判情况）。
+\subsubsection{查找指定商品并显示其信息}
+\begin{enumerate}
+    \item 提示用户输入商品名称。
+    \item 在商店中寻找是否存在该商品。
+    \item 若存在，则将商品名称或地址记录到\texttt{GOOD}字段中。商品信息的显示暂时不做。返回到主菜单界面。
+    \item 若没有找到，提示没有找到，返回到主菜单界面。
+\end{enumerate}
+\subsubsection{下订单}
+\begin{enumerate}
+    \item 判断当前浏览商品是否有效（\texttt{GOOD}不为空），若有效，判断其剩余数量是否为0，不为0则将已售数量加1，重新计算所有商品的推荐度（目前不是用子程序实现的，所以，跳转之前，要把返回地址送到指定变量中），返回主菜单界面。
+    \item 若无效或剩余数量为0，则提示错误，回到主菜单界面。
+\end{enumerate}
+\subsubsection{计算商品推荐度}
+按照给出的公式计算所有商品的推荐度，返回到指定的位置（\texttt{JMP}含返回地址的指定变量）。要求尽量避免溢出。结果只保留整数部分。
+
+\subsubsection{排名}
+暂不实现，直接返回主菜单界面。
+\subsubsection{修改商品信息}
+暂不实现，直接返回主菜单界面。
+\subsubsection{迁移商店运行环境}
+暂不实现，直接返回主菜单界面。
+\subsubsection{显示当前代码段首址}
+将当前代码段寄存器CS里面的内容按照16进制的方式显示到屏幕上，返回主菜单界面。
+\subsubsection{退出}
+退出本系统（可使用\texttt{4CH}号DOS系统功能调用）
+
+\section{任务1.1实验过程}
+\subsection{实验方法说明}
+\begin{enumerate}
+    \item 准备上机实验环境，对实验用到的软件进行安装、运行，通过试用初步了解软件的基本功能、操作等。需要安装的软件是DOSBox, nasm, TD.exe，在启动DOSBox之后，需将挂载点设为nams和TD.exe的保存所在磁盘，即\texttt{mount N D:}，此时虚拟环境挂载的N盘即为操作磁盘，再输入对应的N盘绝对路径即可启动nasm和TD.exe。
+    \item 在TD的代码窗口中的当前光标下输入第一个运算式对应的两个8位数值对应的指令语句\texttt{MOV AH, 01001101B；MOV AL,-01110010B；ADD AH, AL;}观察代码区显示的内容与自己输入字符之间的关系；然后确定CS:IP指向的是自己输入的第一条指令的位置，单步执行三次，观察寄存器内容的变化，记录标志寄存器的结果。
+    \item 尝试按照自己想的其他语句及输入格式等进行操作，积累更多的经验。
+\end{enumerate}
+\subsection{实验记录与分析}
+\begin{enumerate}
+    \item 实验环境条件：Intel Core i7-8550U CPU @ 1.80GHz 1.99GHz, 16.0GB RAM; DOSBox 0.72; TD.EXE 5.0.
+    \item 在TD中输入第一条指令。
+\end{enumerate}
+\section{任务1.2实验过程}
+\subsection{设计思想及储存单元分配}
+求一个数的立方值可以用乘法运算实现，也可以造一立方表，运行时查表实现。依据本次实验的要求，此处用查表法。\\
+\indent 输入数据为0至9中任一自然数（可以考虑判断输入值的范围是否合乎要求），用一字节单元存放其值；输出数据是该数的立方，用一字单元存放其值。
+\subsection{算法流程说明}
+\subsection{实现细节}
+\subsection{实验步骤}
+\subsection{实验记录与分析}
+\section{小结}
+\subsection{主要收获}
+\subsection{主要看法}
+
+\chapter{程序优化}
+\section{实验目的与要求}
+\section{实验内容}
+\subsection{任务2.1}
+\subsection{任务2.2}
+\section{任务2.1实验过程}
+\subsection{实验方法说明}
+\subsection{实验记录与分析}
+\section{任务2.2实验过程}
+\subsection{设计思想及储存单元分配}
+\subsection{算法流程说明}
+\subsection{实现细节}
+\subsection{实验步骤}
+\subsection{实验记录与分析}
+\begin{enumerate}
+    \item 实验环境条件：Intel Core i7-8550U CPU @ 1.80GHz 1.99GHz, 16.0GB RAM; DOSBox 0.72; TD.EXE 5.0.
+    \item 
+\end{enumerate}
+\section{小结}
+\subsection{主要收获}
+\subsection{主要看法}
+
+
+\chapter{模块化程序设计}
+\section{实验目的与要求}
+\section{实验内容}
+\subsection{任务3.1}
+\subsection{任务3.2}
+\section{任务3.1实验过程}
+\subsection{实验方法说明}
+\subsection{实验记录与分析}
+\section{任务3.2实验过程}
+\subsection{设计思想及储存单元分配}
+\subsection{算法流程说明}
+\subsection{实现细节}
+\subsection{实验步骤}
+\subsection{实验记录与分析}
+\begin{enumerate}
+    \item 实验环境条件：Intel Core i7-8550U CPU @ 1.80GHz 1.99GHz, 16.0GB RAM; DOSBox 0.72; TD.EXE 5.0.
+    \item 
+\end{enumerate}
+\section{小结}
+\subsection{主要收获}
+\subsection{主要看法}
+
+\chapter{中断与反跟踪}
+\section{实验目的与要求}
+\section{实验内容}
+\subsection{任务4.1}
+\subsection{任务4.2}
+\section{任务4.1实验过程}
+\subsection{实验方法说明}
+\subsection{实验记录与分析}
+\section{任务4.2实验过程}
+\subsection{设计思想及储存单元分配}
+\subsection{算法流程说明}
+\subsection{实现细节}
+\subsection{实验步骤}
+\subsection{实验记录与分析}
+\begin{enumerate}
+    \item 实验环境条件：Intel Core i7-8550U CPU @ 1.80GHz 1.99GHz, 16.0GB RAM; DOSBox 0.72; TD.EXE 5.0.
+    \item 
+\end{enumerate}
+\section{小结}
+\subsection{主要收获}
+\subsection{主要看法}
+
+
+\chapter{Win32程序设计}
+\section{实验目的与要求}
+\section{实验内容}
+\subsection{任务5.1}
+\subsection{任务5.2}
+\section{任务5.1实验过程}
+\subsection{实验方法说明}
+\subsection{实验记录与分析}
+\section{任务5.2实验过程}
+\subsection{设计思想及储存单元分配}
+\subsection{算法流程说明}
+\subsection{实现细节}
+\subsection{实验步骤}
+\subsection{实验记录与分析}
+\begin{enumerate}
+    \item 实验环境条件：Intel Core i7-8550U CPU @ 1.80GHz 1.99GHz, 16.0GB RAM; DOSBox 0.72; TD.EXE 5.0.
+    \item 
+\end{enumerate}
+\section{小结}
+\subsection{主要收获}
+\subsection{主要看法}
+
+
+\chapter{课程总结}
+
+
+
+\appendix
+\chapter{代码}
+\begin{lstlisting}[language={[x86masm]Assembler}]
+    // code template
+\end{lstlisting}    
+
+    
+\end{document}
