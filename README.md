@@ -12,3 +12,7 @@ Template for *Analog Electronic HW* is available.
 
 Template for *Curriculum Design Report* is available.
 
+Template for *Assembler HW* is available.
+
+Template for *Assembler Lab* is available.
+
