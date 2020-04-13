@@ -1,0 +1,56 @@
+\documentclass{ctexrep}
+\usepackage[margin=20mm]{geometry}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{algorithm2e}
+\usepackage{graphicx}
+\pagestyle{fancy}
+\chead{数字逻辑实验报告}
+\title{Digital Logic Lab}
+\author{Yu-Zhe Shi}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+    这是数字逻辑实验课程报告。
+\end{abstract}
+\tableofcontents
+\chapter{系列二进制加法器设计}
+\section{实验方案设计}
+\subsection{逻辑描述}
+\subsubsection{一位二进制半加器}
+\begin{itemize}
+    \item 输入：被加数A，加数B。
+    \item 输出：本位和S，进位信号C。
+    \item 分析：根据一位加法法则，只有加数都是1时才进位，否则进位信号为零。进位时本位和为0. 因此，使用异或运算计算本位和，与运算计算进位信号。
+    \item 逻辑公式：\begin{equation}
+        S=A\oplus B,\;C=A\times B
+    \end{equation}
+\end{itemize}
+\subsection{电路图}
+\begin{figure}[h]
+    %\centering\includegraphics[width=16cm]{}\caption{一位二进制半加器}\label{fig 1}
+\end{figure}
+
+\chapter{小型实验室门禁系统设计}
+
+
+\chapter{无符号数的乘法器设计}
+
+
+\chapter{无符号数的除法器设计}
+
+
+\chapter{多功能电子钟系统设计}
+
+
+\chapter{斐波那契(Fibonacci)数列计算器设计}
+
+
+\chapter{实验课总结}
+
+
+
+
+
+\end{document}
