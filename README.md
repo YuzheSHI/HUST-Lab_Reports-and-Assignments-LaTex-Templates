@@ -8,6 +8,8 @@ Template for *Data Structure Lab* is available. See [Preview](https://github.com
 
 Template for *Digital Logic HW* is available.
 
+Template for *Digital Logic Lab* is available.
+
 Template for *Analog Electronic HW* is available.
 
 Template for *Curriculum Design Report* is available.
